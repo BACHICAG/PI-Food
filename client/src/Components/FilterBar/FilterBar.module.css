@@ -1,0 +1,25 @@
+/* Estilos para el contenedor principal */
+.filterContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el filtro de dieta */
+  .dietFilter {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  /* Estilos para el filtro de origen */
+  .originFilter {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  /* Estilos para el filtro de orden */
+  .orderFilter {
+    flex: 1;
+  }
+  

@@ -1,0 +1,27 @@
+/* Estilos para la tarjeta de receta */
+.recipeCard {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+  }
+  
+  /* Estilos para la imagen */
+  .recipeImage {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para el nombre de la receta */
+  .recipeName {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  /* Estilos para los tipos de dieta */
+  .dietTypes {
+    font-size: 14px;
+    color: #777;
+  }
+  

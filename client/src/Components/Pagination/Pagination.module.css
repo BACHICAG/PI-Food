@@ -1,0 +1,21 @@
+/* Estilos para la paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Estilos para los botones de paginación */
+  .pageButton {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  /* Estilos para el botón de página activa */
+  .active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  

@@ -1,0 +1,37 @@
+.formFieldContainer {
+  margin-bottom: 16px;
+}
+
+.label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.textarea {
+  width: calc(100% - 10px); /* Se le resta 20px para dejar espacio para el label */
+  max-width: calc(100% - 20px);
+  max-height: 150px;
+  min-height: 20px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin-top: 4px; /* Espacio entre el label y la textarea */
+  margin-bottom: 4px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.input {
+  width: calc(100% - 20px); /* Se le resta 20px para dejar espacio para el label */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 4px; /* Espacio entre el label y el input */
+  margin-bottom: 4px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.errorMessage {
+  color: red;
+}

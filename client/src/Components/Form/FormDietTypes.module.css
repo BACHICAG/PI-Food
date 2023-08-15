@@ -1,0 +1,25 @@
+.dietTypesContainer {
+  margin-top: 16px;
+}
+
+.label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-wrap: wrap; /* Los elementos se ajustarán automáticamente en varias líneas */
+  gap: 8px; /* Espacio entre las etiquetas */
+}
+
+.checkboxLabel {
+  display: inline-block;
+  margin-bottom: 8px;
+  white-space: nowrap; /* Evita que los elementos se dividan en varias líneas */
+}
+
+.errorMessage {
+  color: red;
+}

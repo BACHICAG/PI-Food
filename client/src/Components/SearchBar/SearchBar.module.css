@@ -1,0 +1,21 @@
+/* Estilos para el formulario */
+.formContainer {
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el input de búsqueda */
+  .searchInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Estilos para el botón de búsqueda */
+  .searchButton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
