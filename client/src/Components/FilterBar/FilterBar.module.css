@@ -1,25 +1,45 @@
 /* Estilos para el contenedor principal */
 .filterContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Estilos para el filtro de dieta */
-  .dietFilter {
-    flex: 1;
-    margin-right: 10px;
-  }
-  
-  /* Estilos para el filtro de origen */
-  .originFilter {
-    flex: 1;
-    margin-right: 10px;
-  }
-  
-  /* Estilos para el filtro de orden */
-  .orderFilter {
-    flex: 1;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Estilos para el filtro de dieta */
+.dietFilter {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* Estilos para el filtro de origen */
+.originFilter {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* Estilos para el filtro de orden */
+.orderFilter {
+  flex: 1;
+}
+
+.select {
+  width: 40%;
+  height: 30px;
+  margin-left: 10px;
+  border-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.createButton {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+}
+.createButton:hover {
+  background-color: #4d9cf0;
+}

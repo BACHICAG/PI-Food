@@ -1,27 +1,32 @@
 /* Estilos para la tarjeta de receta */
 .recipeCard {
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #fff;
-  }
-  
-  /* Estilos para la imagen */
-  .recipeImage {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-  
-  /* Estilos para el nombre de la receta */
-  .recipeName {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  /* Estilos para los tipos de dieta */
-  .dietTypes {
-    font-size: 14px;
-    color: #777;
-  }
-  
+  width: 94%;
+  height: 94%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+/* Estilos para la imagen */
+.recipeImage {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* Estilos para el nombre de la receta */
+.recipeName {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 5px;
+  text-decoration: none;
+}
+
+/* Estilos para los tipos de dieta */
+.dietTypes {
+  font-size: 16px;
+  color: #777;
+  text-decoration: none;
+}

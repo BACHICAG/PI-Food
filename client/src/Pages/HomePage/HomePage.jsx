@@ -81,8 +81,13 @@ export default function HomePage() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Welcome to Scrumptious Food!</h1>
+
+      {/* Agregamos el componente SearchBar*/}
+    
       <SearchBar />
+
       {/* Agregamos el componente FilterBar */}
+
       <FilterBar
         selectedDiet={selectedDiet}
         handleDietChange={handleDietChange}
@@ -92,6 +97,8 @@ export default function HomePage() {
         handleOrderChange={handleOrderChange} // Pasamos la función para manejar el cambio de orden
         dietTypes={dietTypes} // Pasamos los tipos de dieta
       />
+
+      {/* Agregamos el componente RecipeCard*/}
       <div className={styles.recipeContainer}>
         {paginatedRecipes.map((recipe) => (
           <Link to={`/recipes/${recipe.id}`} key={recipe.id} className={styles.recipeCard}>

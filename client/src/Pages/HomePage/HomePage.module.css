@@ -1,14 +1,18 @@
 /* Estilos para el título */
 .title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
+  width: 50%;
+  margin: 0 auto;
+  font-size: 30px;
+  color: #000000;
+  border: 8px double #fff ;
+  font-weight: 300;
+  transform: translateY(5px);
 }
 
 /* Estilos para el contenedor principal */
 .container {
-  max-width: 1200px;
   margin: 0 auto;
+  max-width: 1200px;
   padding: 20px;
 }
 
@@ -22,8 +26,16 @@
 /* Estilos para la tarjeta de receta */
 .recipeCard {
   border: 1px solid #ccc;
+  border-radius: 5px;
   padding: 10px;
-  background-color: #fff;
+  background-color: #d7c768;
+  box-shadow: 2px 2px 15px #646363;
+  transition: transform 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.recipeCard:hover{
+  transform: scale(1.02);
 }
 
 /* Estilos para la paginación */

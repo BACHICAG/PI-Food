@@ -25,7 +25,7 @@ export default function SearchBar() {
 
   return (
     <div className={styles.formContainer}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.searchForm}>
         <input
           type="text"
           placeholder="Search recipes by name..."
@@ -33,7 +33,9 @@ export default function SearchBar() {
           onChange={handleInputChange}
           className={styles.searchInput}
         />
-        <button type="submit" className={styles.searchButton} >Search</button>
+        <button type="submit" className={styles.searchButton}>
+          Search
+        </button>
       </form>
     </div>
   );

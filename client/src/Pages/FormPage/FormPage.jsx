@@ -7,6 +7,7 @@ import FormField from "../../Components/Form/FormField.jsx";
 import FormDietTypes from "../../Components/Form/FormDietTypes.jsx";
 
 import styles from "./FormPage.module.css";
+import imagen from "../../Images/Back.png";
 
 export default function FormPage() {
   const [formData, setFormData] = useState({
@@ -23,14 +24,18 @@ export default function FormPage() {
   // Lo que se va a enviar
   const postData = {
     nombre: formData.nombre,
-    imagen: formData.selectedImageType === "url" ? formData.imageUrl : formData.imageFile, // Asegúrate de que estás enviando la imagen correctamente
+    imagen:
+      formData.selectedImageType === "url"
+        ? formData.imageUrl
+        : formData.imageFile, // Asegúrate de que estás enviando la imagen correctamente
     resumen_plato: formData.resumen_plato,
     health_score: formData.health_score,
     paso_a_paso: formData.paso_a_paso.map((step) => String(step)),
     diets: formData.selectedDiets,
   };
 
-  console.log("Post: ", postData);
+  // Mensaje cuando se añade con éxito una receta
+  const [recipeAdded, setRecipeAdded] = useState(false);
 
   // Estado para la opción de imagen
   const [imageOption, setImageOption] = useState("url");
@@ -58,7 +63,7 @@ export default function FormPage() {
 
   const [errors, setErrors] = useState({
     nombre: "",
-    summary: "",
+    resumen_plato: "",
     healthScore: "",
     steps: [],
     imageUrl: "",
@@ -71,7 +76,10 @@ export default function FormPage() {
     // Actualizar el estado de formData
     const value = event.target.value;
     setFormData({ ...formData, nombre: value });
-    setErrors({ ...errors, nombre: value ? "" : "The recipe must have a name." });
+    setErrors({
+      ...errors,
+      nombre: value ? "" : "The recipe must have a name.",
+    });
   };
 
   // ---------------------------------------------------------------------
@@ -81,7 +89,10 @@ export default function FormPage() {
     // Actualizar el estado de formData
     const value = event.target.value;
     setFormData({ ...formData, resumen_plato: value });
-    setErrors({ ...errors, resumen_plato: value ? "" : "The summary is required." });
+    setErrors({
+      ...errors,
+      resumen_plato: value ? "" : "The summary is required.",
+    });
   };
 
   // ---------------------------------------------------------------------
@@ -110,6 +121,10 @@ export default function FormPage() {
       ...formData,
       selectedDiets: updatedSelectedDiets,
     });
+    // setErrors({
+    //   ...errors,
+    //   selectedDiets: updatedSelectedDiets !== "" ? "" : "Diets Types is required.",
+    // });
   };
 
   // **************** Funciones para manejar los cambios en la imagen ****************
@@ -131,14 +146,27 @@ export default function FormPage() {
   // Función para actualizar el estado del formulario con el archivo de imagen cargado
   // y limpia el campo de la URL de la imagen si se ha seleccionado una imagen para cargar.
 
-  const handleImageUpload = (file) => {
-    setFormData({
-      ...formData,
-      imageFile: file,
-      // Limpiamos la URL de la imagen al subir un archivo
-      imageUrl: "",
-      selectedImageType: "upload", // Actualizar la opción de imagen
-    });
+  const handleImageUpload = (event) => {
+    const value = event.target.value;
+    if (imageOption === "url") {
+      setFormData({
+        ...formData,
+        imageFile: null,
+        imageUrl: value,
+        selectedImageType: "url",
+      });
+      setErrors({
+        ...errors,
+        imageUrl: value === "" ? "Image is required." : "",
+      });
+    } else {
+      setFormData({
+        ...formData,
+        imageFile: event,
+        imageUrl: "",
+        selectedImageType: "upload",
+      });
+    }
   };
 
   // **************** Funciones para manejar los cambios en los steps ****************
@@ -173,11 +201,7 @@ export default function FormPage() {
 
   // Función para verificar si un paso es válido
   const isStepValid = (step) => {
-    return (
-      step !== undefined &&
-      step !== null &&
-      step.trim() !== ""
-    );
+    return step !== undefined && step !== null && step.trim() !== "";
   };
 
   // **************** Funciones de validación ****************
@@ -187,7 +211,9 @@ export default function FormPage() {
   const isFormValid = () => {
     // Verificar que todos los campos estén llenos y válidos
 
-    const areStepsValid = formData.paso_a_paso.length > 0 && formData.paso_a_paso.every(step => step.trim() !== "");
+    const areStepsValid =
+      formData.paso_a_paso.length > 0 &&
+      formData.paso_a_paso.every((step) => step.trim() !== "");
 
     return (
       formData.nombre.trim() !== "" &&
@@ -198,7 +224,7 @@ export default function FormPage() {
       ((formData.selectedImageType === "url" &&
         formData.imageUrl.trim() !== "") ||
         (formData.selectedImageType === "upload" &&
-          formData.imageFile !== undefined || formData.imageFile !== null))
+          (formData.imageFile !== undefined || formData.imageFile !== null)))
     );
   };
 
@@ -214,7 +240,9 @@ export default function FormPage() {
         const response = dispatch(addRecipe(postData));
         // Limpiar el formulario y los errores si la receta se agregó con éxito
         if (response.success) {
+          setRecipeAdded(true);
           setFormData({
+            ...formData,
             nombre: "",
             resumen_plato: "",
             health_score: "",
@@ -234,10 +262,13 @@ export default function FormPage() {
     } else {
       // Mostrar mensajes de error si los campos son inválidos
       setErrors({
-        nombre: formData.nombre.trim() === "" ? "The recipe must have a name." : "",
+        nombre:
+          formData.nombre.trim() === "" ? "The recipe must have a name." : "",
 
-        summary:
-          formData.resumen_plato.trim() === "" ? "The summary is required." : "",
+        resumen_plato:
+          formData.resumen_plato.trim() === ""
+            ? "The summary is required."
+            : "",
 
         healthScore:
           formData.health_score === "" ? "Health score is required." : "",
@@ -246,7 +277,7 @@ export default function FormPage() {
           (formData.selectedImageType === "url" &&
             formData.imageUrl.trim() === "") ||
           (formData.selectedImageType === "upload" &&
-            formData.imageFile === undefined || formData.imageFile === null)
+            (formData.imageFile === undefined || formData.imageFile === null))
             ? "Image is required."
             : "",
 
@@ -270,7 +301,7 @@ export default function FormPage() {
           value={formData.nombre}
           onChange={handleNameChange}
           placeholder="Write the name of your recipe"
-          error={errors.name}
+          error={errors.nombre}
         />
 
         <div className={styles.linea}></div>
@@ -283,7 +314,7 @@ export default function FormPage() {
           value={formData.resumen_plato}
           onChange={handleSummaryChange}
           placeholder="Write the summary of your recipe"
-          error={errors.summary}
+          error={errors.resumen_plato}
         />
 
         <div className={styles.linea}></div>
@@ -296,7 +327,7 @@ export default function FormPage() {
           value={formData.health_score}
           onChange={handleHealthScoreChange}
           placeholder="Enter health score"
-          error={errors.healthScore}
+          error={errors.health_score}
         />
 
         {/* ---------------- Campos de Tipo de Dieta ---------------- */}
@@ -354,15 +385,20 @@ export default function FormPage() {
 
         <div className={styles.imageField}>
           {imageOption === "url" && (
-            <input
-              type="text"
-              value={formData.imageUrl}
-              placeholder="Enter image URL"
-              onChange={(event) =>
-                setFormData({ ...formData, imageUrl: event.target.value })
-              }
-              className={styles.url}
-            />
+            <div className={styles.link}>
+              <input
+                type="text"
+                value={formData.imageUrl}
+                placeholder="Enter image URL"
+                onChange={(event) =>
+                  setFormData({ ...formData, imageUrl: event.target.value })
+                }
+                className={styles.url}
+              />
+              {errors.imageUrl && (
+                <p className={styles.errorMessage}>{errors.imageUrl}</p>
+              )}
+            </div>
           )}
 
           {imageOption === "upload" && (
@@ -435,12 +471,26 @@ export default function FormPage() {
 
         <button
           type="submit"
-          className={`${!isFormValid() ? styles.invalidButton : styles.createButton }`}
+          className={`${
+            !isFormValid() ? styles.invalidButton : styles.createButton
+          }`}
           // Desactivar si el formulario no es válido
           disabled={!isFormValid()}
         >
           Create Recipe
         </button>
+
+        {/* ---------- Redireccionamiento a Home (Home Page) ---------- */}
+
+        <Link to="/home" className={styles.backLink}>
+          <img src={imagen} alt="Go Back" width="50" />
+        </Link>
+
+        {/* Mensaje de éxito */}
+
+        {recipeAdded && (
+          <p className={styles.successMessage}>Recipe added successfully!</p>
+        )}
       </form>
     </div>
   );
