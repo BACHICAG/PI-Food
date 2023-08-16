@@ -82,58 +82,47 @@ input[type="file"] {
   font-family: "Times New Roman", Times, serif;
 }
 
-.link{
+.link {
   width: 100%;
 }
 
 /* ------ Estilos para los pasos ------ */
+.stepList{
+  margin-top: 40px;
+}
+
 .stepTitle {
   margin-top: 20px;
 }
 
 .stepItem {
   display: flex;
-  align-items: center;
+  flex-direction: column; /* Cambio a flex-direction para controlar mejor el espaciado */
+  align-items: flex-start; /* Alinear los elementos al inicio */
   margin-bottom: 16px;
 }
 
 .stepNumber {
   font-weight: bold;
   margin-right: 8px;
+  transform: translate(0,-25px);
 }
 
 .stepContent {
+  width: 70%;
   flex-grow: 1;
-  margin-bottom: -65px;
+  margin-top: 20px;
+  margin-bottom: -50px;
+  transform: translate(50px,-45px);
 }
 
-.stepTextarea {
-  width: calc(
-    100% - 20px
-  ); /* Se le resta 20px para dejar espacio para el label */
+.stepTextarea,.invalid {
+  width: 100%;
   max-width: calc(100% - 20px);
   max-height: 150px;
-  min-height: 20px;
-  margin-top: 8px;
-  margin-bottom: 55px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
-  box-sizing: border-box;
-  overflow: auto;
-  font-family: "Times New Roman", Times, serif;
-}
-
-.invalid {
-  width: calc(
-    100% - 20px
-  ); /* Se le resta 20px para dejar espacio para el label */
-  max-width: calc(100% - 20px);
-  max-height: 150px;
-  min-height: 20px;
-  margin-top: 0px; /* Espacio entre el label y la textarea */
-  margin-bottom: 55px;
+  min-height: 40px;
+  margin-top: -30px;
+  margin-bottom: 20px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -151,6 +140,7 @@ input[type="file"] {
   border-radius: 4px;
   cursor: pointer;
   margin-left: 8px;
+  transform: translate(250px, -60px);
 }
 
 .addStepButton {
@@ -160,7 +150,6 @@ input[type="file"] {
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 16px;
 }
 
 .addStepButton:hover {
@@ -168,7 +157,7 @@ input[type="file"] {
 }
 
 .errorMessage {
-  margin-top: -15px;
+  margin-top: -40px;
   margin-bottom: 40px;
   color: #dc3545;
 }

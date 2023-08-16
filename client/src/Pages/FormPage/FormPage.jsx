@@ -10,6 +10,8 @@ import styles from "./FormPage.module.css";
 import imagen from "../../Images/Back.png";
 
 export default function FormPage() {
+  const recipe = useSelector((state) => state.formRecipe);
+  console.log(recipe);
   const [formData, setFormData] = useState({
     nombre: "",
     resumen_plato: "",
@@ -61,12 +63,39 @@ export default function FormPage() {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    if (recipe && recipe.length > 0) {
+      setRecipeAdded(true);
+      setFormData({
+        ...formData,
+        nombre: "",
+        resumen_plato: "",
+        health_score: "",
+        paso_a_paso: [],
+        selectedImageType: "url",
+        imageUrl: "",
+        selectedDiets: [],
+      });
+      setErrors({
+        nombre: "",
+        resumen_plato: "",
+        healthScore: "",
+        steps: [],
+        imageUrl: "",
+        selectedDiets: [],
+      });
+      const myform = document.getElementById("myform");
+      myform.reset();
+    }
+  }, [recipe]);
+
   const [errors, setErrors] = useState({
     nombre: "",
     resumen_plato: "",
     healthScore: "",
     steps: [],
     imageUrl: "",
+    selectedDiets: [],
   });
 
   // ---------------- Funciones para manejar cambios en los campos ----------------
@@ -121,13 +150,22 @@ export default function FormPage() {
       ...formData,
       selectedDiets: updatedSelectedDiets,
     });
-    // setErrors({
-    //   ...errors,
-    //   selectedDiets: updatedSelectedDiets !== "" ? "" : "Diets Types is required.",
-    // });
+    setErrors({
+      ...errors,
+      selectedDiets:
+        updatedSelectedDiets.length === 0 ? "Diets Types is required." : "",
+    });
   };
 
   // **************** Funciones para manejar los cambios en la imagen ****************
+
+  const handleImageInput = (event) => {
+    setFormData({ ...formData, imageUrl: event.target.value });
+    setErrors({
+      ...errors,
+      imageUrl: event.target.value === "" ? "Image is required" : "",
+    });
+  };
 
   // Función para manejar el cambio de opción de imagen
   const handleImageOptionChange = (option) => {
@@ -147,24 +185,39 @@ export default function FormPage() {
   // y limpia el campo de la URL de la imagen si se ha seleccionado una imagen para cargar.
 
   const handleImageUpload = (event) => {
-    const value = event.target.value;
-    if (imageOption === "url") {
-      setFormData({
-        ...formData,
-        imageFile: null,
-        imageUrl: value,
-        selectedImageType: "url",
-      });
+    setErrors({
+      ...errors,
+      imageUrl: "",
+    });
+    if (event) {
+      const value = event.name;
+      if (value) {
+        const extension = value.split(".").reverse()[0];
+        if (["png", "jpg", "jpeg"].includes(extension)) {
+          setFormData({
+            ...formData,
+            imageFile: event,
+            imageUrl: "",
+            selectedImageType: "upload",
+          });
+        } else {
+          setErrors({
+            ...errors,
+            imageUrl: "This type of file is not allowed",
+          });
+          const fileInput = document.getElementById("file-input");
+          fileInput.value = "";
+        }
+      } else {
+        setErrors({
+          ...errors,
+          imageUrl: "Image is required",
+        });
+      }
+    } else {
       setErrors({
         ...errors,
-        imageUrl: value === "" ? "Image is required." : "",
-      });
-    } else {
-      setFormData({
-        ...formData,
-        imageFile: event,
-        imageUrl: "",
-        selectedImageType: "upload",
+        imageUrl: "Image is required",
       });
     }
   };
@@ -187,6 +240,19 @@ export default function FormPage() {
       i === index ? content : step
     );
     setFormData({ ...formData, paso_a_paso: updatedSteps });
+
+    const errorSteps = [...errors.steps];
+
+    if (content === "") {
+      errorSteps[index] = "Step is required";
+    } else {
+      errorSteps[index] = ""; // Limpiar el mensaje de error si hay contenido
+    }
+
+    setErrors({
+      ...errors,
+      steps: errorSteps,
+    });
   };
 
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -237,22 +303,7 @@ export default function FormPage() {
     if (isFormValid()) {
       try {
         // Enviar la receta a la acción addRecipe
-        const response = dispatch(addRecipe(postData));
-        // Limpiar el formulario y los errores si la receta se agregó con éxito
-        if (response.success) {
-          setRecipeAdded(true);
-          setFormData({
-            ...formData,
-            nombre: "",
-            resumen_plato: "",
-            health_score: "",
-            paso_a_paso: [],
-            selectedImageType: "url",
-            imageUrl: "",
-            selectedDiets: [],
-          });
-          setErrors({});
-        }
+        dispatch(addRecipe(postData));
         // Aquí podrías mostrar algún mensaje de éxito si lo deseas
         console.log("Recipe added");
       } catch (error) {
@@ -292,7 +343,11 @@ export default function FormPage() {
     <div>
       <h2 className={styles.h3}>Create a New Recipe</h2>
 
-      <form className={styles.formContainer} onSubmit={handleSubmit}>
+      <form
+        id="myform"
+        className={styles.formContainer}
+        onSubmit={handleSubmit}
+      >
         {/* ---------------- Campo de Nombre ---------------- */}
 
         <FormField
@@ -390,9 +445,7 @@ export default function FormPage() {
                 type="text"
                 value={formData.imageUrl}
                 placeholder="Enter image URL"
-                onChange={(event) =>
-                  setFormData({ ...formData, imageUrl: event.target.value })
-                }
+                onChange={handleImageInput}
                 className={styles.url}
               />
               {errors.imageUrl && (
@@ -402,12 +455,18 @@ export default function FormPage() {
           )}
 
           {imageOption === "upload" && (
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(event) => handleImageUpload(event.target.files[0])}
-              className={styles.url}
-            />
+            <div>
+              <input
+                id="file-input"
+                type="file"
+                accept="image/*"
+                onChange={(event) => handleImageUpload(event.target.files[0])}
+                className={styles.url}
+              />
+              {errors.imageUrl && (
+                <p className={styles.errorMessage}>{errors.imageUrl}</p>
+              )}
+            </div>
           )}
         </div>
 
@@ -437,21 +496,20 @@ export default function FormPage() {
                       !isStepValid(step) ? styles.invalid : styles.stepTextarea
                     }
                   />
+                  {/* Agregar el botón "Eliminar paso" */}
+
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveStep(index)}
+                    className={styles.removeStepButton}
+                  >
+                    Remove Step
+                  </button>
                   {/* Mostrar mensaje de error específico para el paso */}
                   {errors.steps && errors.steps[index] && (
                     <p className={styles.errorMessage}>{errors.steps[index]}</p>
                   )}
                 </div>
-
-                {/* Agregar el botón "Eliminar paso" */}
-
-                <button
-                  type="button"
-                  onClick={() => handleRemoveStep(index)}
-                  className={styles.removeStepButton}
-                >
-                  Remove Step
-                </button>
               </li>
             ))}
           </ul>
